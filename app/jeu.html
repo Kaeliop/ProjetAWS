@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <script src="js/bataille.js"></script>
+  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <title>Bataille Navale | Accueil</title>
+  </head>
+
+
+  <body>
+
+
+
+        <!-- debut header -->
+    <header class="container-fluid header">
+      <div class="container">
+        <a href="#" class="mx-auto my-0 text-uppercase logo">Battleships</a>
+        <div class=" menu">
+          <a href="index.html">Deconnexion</a>
+        </div>
+
+      </div>
+
+    </header>
+    <!-- fin header -->
+
+
+
+        <!-- Side navigation -->
+<div class="sidenav">
+      <script>
+        con.connect(function(err) {
+	      if (err) throw err;
+	      on.query("SELECT * FROM friends", function (err, result, fields) {
+	      if (err) throw err;
+	      console.log(result);
+      	});
+        });
+        document.write(result);
+
+      </script>
+            <div class="friend"> 
+
+              </div>
+
+
+  </div>
+  
+  <!-- Page content -->
+
+  <div class="container-fluid col-sm-10 HostContainer">
+
+    <div class="container-fluid col-sm-5 userSide">
+
+      <table id="plateau" class="userTable">
+        <script>
+          classText = "caseBataille";
+          onclickText = "jouerCoup(this.id);";
+          text="";
+          
+          id1=1;
+          Alphabet="ABCDEFGHIJ";
+  
+          for( i= 0; i<10; i++){
+            document.write("<tr>");
+            for( j= 0; j<10; j++){
+              id1=i+1;
+              id=Alphabet[j]+id1.toString(10);
+              txt = "<td class = \""+classText+"\" id=\""+id+"\" onclick=\""+onclickText+"\"></td>";
+              document.write(txt);
+            }
+            document.write("</tr>");
+          }
+        </script>
+        </table>
+    </div>
+    <div class="container-fluid col-sm-5 ennemySide">
+      <table id="plateau2">
+        <script>
+          classText = "caseBataille";
+          onclickText = "jouerCoup(this.id);";
+          text="";
+          
+          id1=1;
+          Alphabet="ABCDEFGHIJ";
+  
+          for( i= 0; i<10; i++){
+            document.write("<tr>");
+            for( j= 0; j<10; j++){
+              id1=i+1;
+              id="J2"+Alphabet[j]+id1.toString(10);
+              txt = "<td class = \""+classText+"\" id=\""+id+"\" onclick=\""+onclickText+"\"></td>";
+              document.write(txt);
+            }
+            document.write("</tr>");
+          }
+        </script>
+        </table>
+      
+    </div>
+  </div>
+
+
+
+    <!-- Footer -->
+
+  </body>
+
+</html>

@@ -8,7 +8,7 @@ body,html{
   background-image: url("../img/bs2.jpg");
   background-attachment: fixed;
   background-repeat: no-repeat;
-   background-size: cover;
+  background-size: cover;
 
 }
 
@@ -26,7 +26,9 @@ a,a:hover{
   background: black;
   position: fixed;
   opacity: 1;
-  
+  border-bottom: white;
+  border-bottom: solid;
+
 }
 .header a:hover {
   text-decoration: none;
@@ -261,15 +263,92 @@ padding-top:20%;
  position: absolute;
 }
 
+/* Game */
+.caseBataille{
+  width:40px;
+  height:35px;
+  text-align:center;
+  border-color: teal;
+}
+.userTable{
+  border:2px;
 
-
+}
+.userSide{
+  background-color: whitesmoke;
+}
+.ennemySide{
+  background-color: teal;
+}
 /* Footer */
 footer{
   text-align: center;
   background-color: black;
   color: white;
   opacity: 0.8;
-bottom: 100px;
-
+  bottom: 100px;
 }
 /* fin Footer*/
+
+/* ROOMS */
+.rooms-container{
+  width: 60%;
+}
+.rooms-header{
+  padding-top: auto;
+  padding-bottom: auto;
+  height: 20%;
+  padding-top: 2.5%;
+  padding-right: 40px;
+  width: 100%;
+  text-align: center;
+  border-radius: 30px;
+  border-bottom: solid;
+}
+.room{
+  height: 30px;
+  border-width: thick;
+  padding-left: 10px;
+}
+/* Friends */
+.friends-header{
+  padding-top: auto;
+  padding-bottom: auto;
+  height: 10%;
+  width: 100%;
+  text-align: center;
+  opacity: 1;
+  color: white;
+  border-bottom: white;
+  border-bottom: solid;
+}
+
+/* Chat styles */
+
+   #message-container {
+      width: 20%;
+      /* max-width: 1200px; */
+    }
+/* 
+    #message-container div {
+      background-color: #CCC;
+      padding: 5px;
+    }
+
+    #message-container div:nth-child(2n) {
+      background-color: #FFF;
+    }
+
+    #send-container {
+      position: fixed;
+      padding-bottom: 30px;
+      bottom: 0;
+      background-color: white;
+      max-width: 1200px;
+      width: 80%;
+      display: flex;
+    }
+
+    #message-input {
+      flex-grow: 1;
+    } */
