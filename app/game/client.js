@@ -1,18 +1,14 @@
 var socket = io();
 
 $(function() {
-  /**
-   * Successfully connected to server event
-   */
+	//connexion success
   socket.on('connect', function() {
     console.log('Connected to server.');
     $('#disconnected').hide();
     $('#waiting-room').show();   
   });
 
-  /**
-   * Disconnected from server event
-   */
+	//deconnexion et mise à jour du site
   socket.on('disconnect', function() {
     console.log('Disconnected from server.');
     $('#waiting-room').hide();
@@ -20,9 +16,7 @@ $(function() {
     $('#disconnected').show();
   });
 
-  /**
-   * User has joined a game
-   */
+	//joueur rejoint partie
   socket.on('join', function(gameId) {
     Game.initGame();
     $('#messages').empty();
@@ -32,69 +26,36 @@ $(function() {
     $('#game-number').html(gameId);
   })
 
-  /**
-   * Update player's game state
-   */
+
+	//Maj statut joueur
   socket.on('update', function(gameState) {
     Game.setTurn(gameState.turn);
     Game.updateGrid(gameState.gridIndex, gameState.grid);
   });
 
-  /**
-   * Game chat message
-   */
-  socket.on('chat', function(msg) {
-    $('#messages').append('<li><strong>' + msg.name + ':</strong> ' + msg.message + '</li>');
-    $('#messages-list').scrollTop($('#messages-list')[0].scrollHeight);
-  });
 
-  /**
-   * Game notification
-   */
-  socket.on('notification', function(msg) {
-    $('#messages').append('<li>' + msg.message + '</li>');
-    $('#messages-list').scrollTop($('#messages-list')[0].scrollHeight);
-  });
-
-  /**
-   * Change game status to game over
-   */
+	//quand game over
   socket.on('gameover', function(isWinner) {
     Game.setGameOver(isWinner);
   });
   
-  /**
-   * Leave game and join waiting room
-   */
+	//quitte la partie ( à ajouter eventuellement ) 
   socket.on('leave', function() {
     $('#game').hide();
     $('#waiting-room').show();
   });
 
-  /**
-   * Send chat message to server
-   */
-  $('#message-form').submit(function() {
-    socket.emit('chat', $('#message').val());
-    $('#message').val('');
-    return false;
-  });
 
 });
 
-/**
- * Send leave game request
- * @param {type} e Event
- */
+
+//quitter la partie ( à ajouter eventuellement ) 
 function sendLeaveRequest(e) {
   e.preventDefault();
   socket.emit('leave');
 }
 
-/**
- * Send shot coordinates to server
- * @param {type} square
- */
+//indique coordonnées tir au serveur
 function sendShot(square) {
   socket.emit('shot', square);
 }

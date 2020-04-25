@@ -5,49 +5,44 @@ var io = require('socket.io')(http);
 var Entities = require('html-entities').AllHtmlEntities;
 var entities = new Entities();
 
-var BattleshipGame = require('./game.js');
-var GameStatus = require('./gameStatus.js');
+var BattleshipGame = require('./gameapp.js');
+var GameStatus = require('./game_status.js');
 
 var port = 8900;
 
 var users = {};
 var gameIdCounter = 1;
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname));
 
 http.listen(port, function(){
-  console.log('port ouvert :' + port);
+  console.log('listening on *:' + port);
 });
 
+//créé l'utilisateur lors de la connexion et l'ajoute à la salle d'attente
 io.on('connection', function(socket) {
   console.log(' ID ' + socket.id + ' connecté.');
 
-  // create user object for additional data
   users[socket.id] = {
     inGame: null,
     player: null
   }; 
 
-  // join waiting room until there are enough players to start a new game
   socket.join('Attente');
 
-
-  /**
-   * Handle shot from client
-   */
+  //tir du joueur
   socket.on('shot', function(position) {
     var game = users[socket.id].inGame, opponent;
 
     if(game !== null) {
-      // Is it this users turn?
       if(game.currentPlayer === users[socket.id].player) {
         opponent = game.currentPlayer === 0 ? 1 : 0;
 
         if(game.shoot(position)) {
-          // Valid shot
+          //tir valide
           checkGameOver(game);
 
-          // Update game state on both clients.
+          //mise à jour des clients
           io.to(socket.id).emit('update', game.getGameState(users[socket.id].player, opponent));
           io.to(game.getPlayerId(opponent)).emit('update', game.getGameState(opponent, opponent));
         }
@@ -55,23 +50,18 @@ io.on('connection', function(socket) {
     }
   });
   
-  /**
-   * Handle leave game request
-   */
+  //quitte la partie
   socket.on('leave', function() {
     if(users[socket.id].inGame !== null) {
       leaveGame(socket);
 
-      socket.join('waiting room');
+      socket.join('Attente');
       joinWaitingPlayers();
     }
   });
 
-  /**
-   * Handle client disconnect
-   */
+  //Deconnexion
   socket.on('disconnect', function() {
-    console.log((new Date().toISOString()) + ' ID ' + socket.id + ' disconnected.');
     
     leaveGame(socket);
 
@@ -81,19 +71,16 @@ io.on('connection', function(socket) {
   joinWaitingPlayers();
 });
 
-/**
- * Create games for players in waiting room
- */
+//créé nouvelle partie si 2+ joueurs
 function joinWaitingPlayers() {
-  var players = getClientsInRoom('waiting room');
+  var players = getClientsInRoom('Attente');
   
-  if(players.length >= 2) {
-    // 2 player waiting. Create new game!
+  if(players.length > 1) {
     var game = new BattleshipGame(gameIdCounter++, players[0].id, players[1].id);
 
-    // create new room for this game
-    players[0].leave('waiting room');
-    players[1].leave('waiting room');
+    //quitte attente et créé nouvelle room pour jouer
+    players[0].leave('Attente');
+    players[1].leave('Attente');
     players[0].join('game' + game.id);
     players[1].join('game' + game.id);
 
@@ -104,29 +91,19 @@ function joinWaitingPlayers() {
     
     io.to('game' + game.id).emit('join', game.id);
 
-    // send initial ship placements
     io.to(players[0].id).emit('update', game.getGameState(0, 0));
     io.to(players[1].id).emit('update', game.getGameState(1, 1));
 
-    console.log((new Date().toISOString()) + " " + players[0].id + " and " + players[1].id + " have joined game ID " + game.id);
+    console.log(players[0].id + " et " + players[1].id + " ont rejoint :  " + game.id);
   }
 }
 
-/**
- * Leave user's game
- * @param {type} socket
- */
+//quitte la partie
 function leaveGame(socket) {
   if(users[socket.id].inGame !== null) {
-    console.log((new Date().toISOString()) + ' ID ' + socket.id + ' left game ID ' + users[socket.id].inGame.id);
-
-    // Notifty opponent
-    socket.broadcast.to('game' + users[socket.id].inGame.id).emit('notification', {
-      message: 'Opponent has left the game'
-    });
 
     if(users[socket.id].inGame.gameStatus !== GameStatus.gameOver) {
-      // Game is unfinished, abort it.
+      //si joueur null et partie non terminée
       users[socket.id].inGame.abortGame(users[socket.id].player);
       checkGameOver(users[socket.id].inGame);
     }
@@ -140,23 +117,15 @@ function leaveGame(socket) {
   }
 }
 
-/**
- * Notify players if game over.
- * @param {type} game
- */
+//quand partie terminée
 function checkGameOver(game) {
   if(game.gameStatus === GameStatus.gameOver) {
-    console.log((new Date().toISOString()) + ' Game ID ' + game.id + ' ended.');
     io.to(game.getWinnerId()).emit('gameover', true);
     io.to(game.getLoserId()).emit('gameover', false);
   }
 }
 
-/**
- * Find all sockets in a room
- * @param {type} room
- * @returns {Array}
- */
+//récupère les joueurs dans une room
 function getClientsInRoom(room) {
   var clients = [];
   for (var id in io.sockets.adapter.rooms[room]) {

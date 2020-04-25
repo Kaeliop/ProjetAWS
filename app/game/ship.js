@@ -1,7 +1,4 @@
-/**
- * Ship constructor
- * @param {Number} size
- */
+//constructeur ship
 function Ship(size) {
   this.x = 0;
   this.y = 0;
@@ -10,12 +7,11 @@ function Ship(size) {
   this.horizontal = false;
 }
 
-/**
- * Check if ship is sunk
- * @returns {Boolean}
- */
+//si bateau coulé ( l'affichera ) 
 Ship.prototype.isSunk = function() {
   return this.hits >= this.size;
 };
 
 module.exports = Ship;
+
+
