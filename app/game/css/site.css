@@ -2,12 +2,8 @@
 @media (min-width: 1200px) {
     .container {
         width: 970px;
+        height: 575px;
     }
-}
-
-html, body, .container {
-    height: 100%;
-    background-color: #f9f9f9;
 }
 .container {
     display: table;
