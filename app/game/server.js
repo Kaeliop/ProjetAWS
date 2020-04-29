@@ -16,7 +16,7 @@ var gameIdCounter = 1;
 app.use(express.static(__dirname));
 
 http.listen(port, function(){
-  console.log('listening on *:' + port);
+  console.log('port ouvert : ' + port);
 });
 
 //créé l'utilisateur lors de la connexion et l'ajoute à la salle d'attente
@@ -94,7 +94,7 @@ function joinWaitingPlayers() {
     io.to(players[0].id).emit('update', game.getGameState(0, 0));
     io.to(players[1].id).emit('update', game.getGameState(1, 1));
 
-    console.log(players[0].id + " et " + players[1].id + " ont rejoint :  " + game.id);
+    console.log(players[0].id + " et " + players[1].id + " ont rejoint la partie :  " + game.id);
   }
 }
 

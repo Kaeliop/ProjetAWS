@@ -167,7 +167,7 @@ var Game = (function() {
       x = ship.x * (squareWidth + gridBorder) + gridBorder + shipPadding;
       y = ship.y * (squareHeight + gridBorder) + gridBorder + shipPadding;
       shipWidth = squareWidth - shipPadding * 2;
-      shipLength = squareWidth * ship.size + (gridBorder * (ship.size - 1)) - shipPadding * 2;
+      shipLength = squareWidth * ship.size + (gridBorder * (ship.taille - 1)) - shipPadding * 2;
 
       if(ship.horizontal) {
         context[gridIndex].fillRect(x, y, shipLength, shipWidth);

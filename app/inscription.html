@@ -31,9 +31,11 @@
           <!-- fin header -->
       
     <!-- Inscription -->
+    <script type="text/javascript" src="./js/cypher.js"></script>
+    
     <section class="container-fluid inscr" id="inscr">
 
-    <form class="inscription container" id="ins" action="/auth2" method="post">
+    <form class="inscription container" id="ins" action="/auth2" method="post" onsubmit="encryption(this.password);">
       <div class="row">
       <div class="col-md-offset-2 col-md-8">
 
