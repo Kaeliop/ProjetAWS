@@ -59,3 +59,7 @@ function sendLeaveRequest(e) {
 function sendShot(square) {
   socket.emit('shot', square);
 }
+
+
+
+

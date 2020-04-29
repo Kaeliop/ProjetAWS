@@ -201,7 +201,9 @@ padding-top:20%;
 }
 /* fin Login */
 
-
+label{
+  margin-bottom: 10px;
+}
 
 
 /* The sidebar menu */
