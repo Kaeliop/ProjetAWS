@@ -47,24 +47,29 @@ app.use(session({
 
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
-app.use(express.static('/Users/mac/Desktop/AWS'));
+app.use(express.static(__dirname));
 
 app.get('/', function(request, response) {
-  response.sendFile('/Users/mac/Desktop/AWS/index.html');
+  response.sendFile(__dirname +'/index.html');
 });
 
 app.get('/login', function(request, response) {
-  response.sendFile('/Users/mac/Desktop/AWS/login.html');
+  response.sendFile(__dirname +'/login.html');
+});
+app.get('/disconnect', function(request, response) {
+  request.session.loggedin = false;
+
+  response.sendFile(__dirname + '/index.html');
 });
 app.get('/register1', function(request, response) {
-  response.sendFile('/Users/mac/Desktop/AWS/register.html');
+  response.sendFile(__dirname +'/register.html');
 });
 app.post('/login', function(request, response) {
 	var mail = request.body.email_cnx;
   var password = request.body.mdp_cnx;
 
 	if (mail && password) {
-		connection.query('SELECT nickname FROM player WHERE mail = ? AND password = ?', [mail, password], function(error, result, fields) {
+		connection.query('SELECT * FROM player WHERE mail = ? AND password = ?', [mail, password], function(error, result, fields) {
 			if (result) {
         usersFromDB.push(result)
         request.session.loggedin = true;
@@ -75,8 +80,11 @@ app.post('/login', function(request, response) {
 				  });
 				  response.end();
 						} else {
-        console.log(result);
-				response.send('Incorrect Username and/or Password!');
+              response.send('Incorrect Username and/or Password!');
+              response.writeHead(500, {
+                'Location': 'index.html'
+                });
+        // console.log(result);
 			}			
 			response.end();
 		});
@@ -111,8 +119,6 @@ app.get('/home', function(request, response) {
 	response.end();
 });
 
-var id = 1;
-
 
 // connection.connect(function(err) {
 // 	if (err) throw err;
@@ -137,6 +143,7 @@ var id = 1;
 
 
 //créé l'utilisateur lors de la connexion et l'ajoute à la salle d'attente
+
 io.on('connection', function(socket) {
   console.log(' ID ' + socket.id + ' connecté.');
 
@@ -144,7 +151,7 @@ io.on('connection', function(socket) {
     inGame: null,
     player: null
     }; 
-
+    console.log("kkkkkk" + usersFromDB)
   socket.join('Attente');
 
   //tir du joueur
@@ -181,8 +188,10 @@ io.on('connection', function(socket) {
   socket.on('disconnect', function() {
     
     leaveGame(socket);
-
     delete users[socket.id];
+
+    // request.session.loggedin = false;
+
   });
 
   joinWaitingPlayers();

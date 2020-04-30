@@ -1,7 +1,7 @@
 /* @@charset "UTF-8"; */
 
 /* ***************************** la page d'Index  ******************/
-
+/* 
 body,html{
   padding: 0;
   margin: 0;
@@ -10,7 +10,7 @@ body,html{
   background-repeat: no-repeat;
   background-size: cover;
 
-}
+} */
 
 body{
   font-family: 'Raleway', sans-serif;
@@ -201,7 +201,9 @@ padding-top:20%;
 }
 /* fin Login */
 
-
+label{
+  margin-bottom: 10px;
+}
 
 
 /* The sidebar menu */
@@ -334,11 +336,9 @@ footer{
       background-color: #CCC;
       padding: 5px;
     }
-
     #message-container div:nth-child(2n) {
       background-color: #FFF;
     }
-
     #send-container {
       position: fixed;
       padding-bottom: 30px;
@@ -348,7 +348,133 @@ footer{
       width: 80%;
       display: flex;
     }
-
     #message-input {
       flex-grow: 1;
     } */
+
+
+
+    .footer {
+      background-color: gray;
+      color: white;
+      height: 17px;
+      font-family: fantasy;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      text-align: center;
+      position: absolute;
+      }
+
+
+ body{
+  padding: 0;
+  margin: 0;
+  background-image: url("../img/bs2.jpg");
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+}
+
+/* header */
+header{
+  height: 70px;
+  line-height: 70px;
+  background: black;
+  position: absolute;
+  opacity: 1;
+  border-bottom: white;
+  width: 100%;
+  padding-left: 15%;
+  padding-right: 15%;
+
+}
+.header a:hover {
+  text-decoration: none;
+}
+
+
+/* LOGO */
+.logo{
+  text-transform: uppercase;
+  color: white;
+  font-weight: bold;
+  font-size: 30px;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
+/* fin LOGO */
+
+/* Menu */
+.menu{
+  float: right;
+}
+.menu a{
+  color: white;
+  margin-right: 20px;
+}
+.menu a:hover{
+  text-decoration: none;
+  color: cadetblue;
+}
+/* fin Menu */
+
+/* SIDE NAVE */
+
+.sidenav {
+  height: 89.5%; /* Full-height: remove this if you want "auto" height */
+  width: 200px; /* Set the width of the sidebar */
+  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+  z-index: 1; /* Stay on top */
+  top:70px; /* Stay at the top */
+  left: 0;
+  background-color: black; /* Black */
+  opacity: 0.85;
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 120px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  position: absolute;
+}
+label{
+  width: 100%;
+  height: 30px;
+  color: white;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  text-align: center;
+}
+/* .vertical-center-row {
+  display: table-cell;
+  vertical-align: middle;
+} */
+.host{
+  background-color: white;
+  right: 0;
+  top: 80px;
+  height: 700px;
+  opacity: 0.8;
+  border-radius: 20px;
+
+  /* width: 800px; */
+}
+/* .host::after {
+  content: "";
+  opacity: 0.8;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;   
+} */
+
+
+/* Waiting room */
+#waiting-room{
+margin: auto;
+background-color: black;
+color: white;
+font-family: Verdana, Geneva, Tahoma, sans-serif;
+height: 150px;
+padding-top:30px;
+border-radius: 30px;
