@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/styles.css">
 
+	<script type="text/javascript" src="./js/cypher.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <title>Bataille Navale | Inscription</title>
   </head>
@@ -33,7 +34,7 @@
     <!-- Inscription -->
     <section class="container-fluid inscr" id="inscr">
 
-    <form class="inscription container" id="ins" action="/register1" method="post">
+    <form class="inscription container" id="ins" action="/register1" method="post" onsubmit="encryption(this.password);">
       <div class="row">
       <div class="col-md-offset-2 col-md-8">
 

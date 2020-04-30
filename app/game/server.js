@@ -7,9 +7,8 @@ var entities = new Entities();
 
 
 var BattleshipGame = require('./gameapp.js');
-var GameStatus = require('./game_status.js');
 
-var port = 8900;
+var port = 8080;
 
 var users = {};
 var usersFromDB = [];
@@ -19,7 +18,7 @@ var gameIdCounter = 1;
 app.use(express.static(__dirname));
 
 http.listen(port, function(){
-  console.log('listening on *:' + port);
+  console.log('serveur ouvert sur le port ' + port);
 });
 
 
@@ -102,6 +101,7 @@ app.post('/register1', function(request, response) {
 	});
 
 });
+
 app.get('/home', function(request, response) {
 	if (request.session.loggedin) {
 		response.send('Welcome back, ' + request.session.username + '!');
@@ -189,6 +189,7 @@ io.on('connection', function(socket) {
 });
 
 //créé nouvelle partie si 2+ joueurs
+//fonction reprise sur internet et modifiée
 function joinWaitingPlayers() {
   var players = getClientsInRoom('Attente');
   
@@ -216,10 +217,11 @@ function joinWaitingPlayers() {
 }
 
 //quitte la partie
+//fonction reprise sur internet et modifiée
 function leaveGame(socket) {
   if(users[socket.id].inGame !== null) {
 
-    if(users[socket.id].inGame.gameStatus !== GameStatus.gameOver) {
+    if(users[socket.id].inGame.gameStatus !== 2) {
       //si joueur null et partie non terminée
       users[socket.id].inGame.abortGame(users[socket.id].player);
       checkGameOver(users[socket.id].inGame);
@@ -235,14 +237,16 @@ function leaveGame(socket) {
 }
 
 //quand partie terminée
+//fonction reprise sur internet et modifiée
 function checkGameOver(game) {
-  if(game.gameStatus === GameStatus.gameOver) {
+  if(game.gameStatus === 2) {
     io.to(game.getWinnerId()).emit('gameover', true);
     io.to(game.getLoserId()).emit('gameover', false);
   }
 }
 
 //récupère les joueurs dans une room
+//fonction reprise sur internet et modifiée
 function getClientsInRoom(room) {
   var clients = [];
   for (var id in io.sockets.adapter.rooms[room]) {

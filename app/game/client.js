@@ -2,14 +2,16 @@ var socket = io();
 
 $(function() {
 	//connexion success
-  socket.on('connect', function() {
+  socket.on('connect', function() 
+  {
     console.log('Connected to server.');
     $('#disconnected').hide();
     $('#waiting-room').show();   
   });
 
 	//deconnexion et mise à jour du site
-  socket.on('disconnect', function() {
+  socket.on('disconnect', function() 
+  {
     console.log('Disconnected from server.');
     $('#waiting-room').hide();
     $('#game').hide();
@@ -17,7 +19,8 @@ $(function() {
   });
 
 	//joueur rejoint partie
-  socket.on('join', function(gameId) {
+  socket.on('join', function(gameId) 
+  {
     Game.initGame();
     $('#messages').empty();
     $('#disconnected').hide();
@@ -28,19 +31,22 @@ $(function() {
 
 
 	//Maj statut joueur
-  socket.on('update', function(gameState) {
+  socket.on('update', function(gameState) 
+  {
     Game.setTurn(gameState.turn);
     Game.updateGrid(gameState.gridIndex, gameState.grid);
   });
 
 
 	//quand game over
-  socket.on('gameover', function(isWinner) {
+  socket.on('gameover', function(isWinner) 
+  {
     Game.setGameOver(isWinner);
   });
   
 	//quitte la partie ( à ajouter eventuellement ) 
-  socket.on('leave', function() {
+  socket.on('leave', function() 
+  {
     $('#game').hide();
     $('#waiting-room').show();
   });

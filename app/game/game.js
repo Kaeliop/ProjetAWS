@@ -1,7 +1,4 @@
-var GameStatus = {
-  inProgress: 1,
-  gameOver: 2
-}
+
 
 var Game = (function() {
   var canvas = [], context = [], grid = [],
@@ -10,13 +7,12 @@ var Game = (function() {
       squareHeight = (gridHeight - gridBorder * gridRows - gridBorder) / gridRows,
       squareWidth = (gridWidth - gridBorder * gridCols - gridBorder) / gridCols,
       turn = false, gameStatus, squareHover = { x: -1, y: -1 };
+	  canvas[0] = document.getElementById('canvas-grid1');
+	  canvas[1] = document.getElementById('canvas-grid2');
+	  context[0] = canvas[0].getContext('2d');
+	  context[1] = canvas[1].getContext('2d');
 
-  canvas[0] = document.getElementById('canvas-grid1');
-  canvas[1] = document.getElementById('canvas-grid2');
-  context[0] = canvas[0].getContext('2d');
-  context[1] = canvas[1].getContext('2d');
-
-	//colore carré au passage de la souris
+	//colore un carré au passage de la souris
   canvas[1].addEventListener('mousemove', function(e) {
     var pos = getCanvasCoordinates(e, canvas[1]);
     squareHover = getSquare(pos.x, pos.y);
@@ -39,6 +35,7 @@ var Game = (function() {
   });
 
 	//récupère la case sous la souris ( en divisant coordonnées écran par le nombre de lignecolonne et leur taille
+	//fonction reprise
   function getSquare(x, y) {
     return {
       x: Math.floor(x / (gridWidth / gridCols)),
@@ -47,6 +44,7 @@ var Game = (function() {
   };
 
 	//récupère la position souris par rapport au canvas ( haut gauche = 0;0 )
+	//fonction reprise
   function getCanvasCoordinates(event, canvas) {
     rect = canvas.getBoundingClientRect();
     return {
@@ -57,13 +55,15 @@ var Game = (function() {
 
 
 	//nouvelle partie
+	//fonction reprise
   function initGame() {
     var i;
 
 	//indique partie en cours
-    gameStatus = GameStatus.inProgress;
+    gameStatus = 1;
     
     //grille des joueurs 1 et 2
+    //reprit sur internet
     grid[0] = { shots: Array(gridRows * gridCols), ships: [] };
     grid[1] = { shots: Array(gridRows * gridCols), ships: [] };
 
@@ -91,8 +91,9 @@ var Game = (function() {
 
   
   //si partie non terminée, indique l'état actuel du tour
+  //fonction reprise
   function setTurn(turnState) {
-    if(gameStatus !== GameStatus.gameOver) {
+    if(gameStatus !== 2) {
       turn = turnState;
 
       if(turn) {
@@ -105,8 +106,9 @@ var Game = (function() {
 
  
 	//indique si vainqueur ou perdant et propose de rejouer
+	//Retiré pour le moment, ne fonctionne pas
   function setGameOver(isWinner) {
-    gameStatus = GameStatus.gameOver;
+    gameStatus = 2;
     turn = false;
     
     if(isWinner) {
@@ -129,6 +131,7 @@ var Game = (function() {
 
  
 	//dessine le background
+	//fonction reprise et modifiée
   function drawSquares(gridIndex) {
     var i, j, squareX, squareY;
 
@@ -155,6 +158,7 @@ var Game = (function() {
 
 
 	//dessine les bateaux
+	//fonction reprise et modifiée
   function drawShips(gridIndex) {
     var ship, i, x, y,
         shipWidth, shipLength;
@@ -179,6 +183,7 @@ var Game = (function() {
   
 
 	//dessine tirs touchés et ratés
+	//fonction reprise et modifiée
   function drawMarks(gridIndex) {
     var i, j, squareX, squareY;
 

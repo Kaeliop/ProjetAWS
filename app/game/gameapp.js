@@ -1,14 +1,12 @@
 var Player = require('./player.js');
 var Settings = require('./settings.js');
-var GameStatus = require('./game_status.js');
 
 //construit une partie à partir des joueurs et d'une room, construit les joueurs
 function BattleshipGame(id, idPlayer1, idPlayer2) {
   this.id = id;
   this.currentPlayer = Math.floor(Math.random() * 2);
   this.winningPlayer = null;
-  this.gameStatus = GameStatus.inProgress;
-
+  this.gameStatus = 1;
   this.players = [new Player(idPlayer1), new Player(idPlayer2)];
 }
 
@@ -42,7 +40,7 @@ BattleshipGame.prototype.switchPlayer = function() {
 //annule partie
 BattleshipGame.prototype.abortGame = function(player) {
   // give win to opponent
-  this.gameStatus = GameStatus.gameOver;
+  this.gameStatus = 2;
   this.winningPlayer = player === 0 ? 1 : 0;
 }
 
@@ -51,7 +49,7 @@ BattleshipGame.prototype.shoot = function(position) {
   var opponent = this.currentPlayer === 0 ? 1 : 0,
       gridIndex = position.y * Settings.gridCols + position.x;
 
-  if(this.players[opponent].shots[gridIndex] === 0 && this.gameStatus === GameStatus.inProgress) {
+  if(this.players[opponent].shots[gridIndex] === 0 && this.gameStatus === 1) {
 		//si zone ciblable
     if(!this.players[opponent].shoot(gridIndex)) {
 		//si échec
@@ -60,7 +58,7 @@ BattleshipGame.prototype.shoot = function(position) {
 
     //si aucun vaisseau restant de l'adversaire, fin du jeu
     if(this.players[opponent].getShipsLeft() <= 0) {
-      this.gameStatus = GameStatus.gameOver;
+      this.gameStatus = 2;
       this.winningPlayer = opponent === 0 ? 1 : 0;
     }
     
